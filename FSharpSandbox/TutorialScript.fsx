@@ -107,7 +107,7 @@ module ``Everybody loves recursion`` =
 
                 smallerElements @ [first] @ largerElements
 
-    printfn "%A" (quickSort [1;5;23;18;9;1;3])
+    printfn "%A" (quickSort [1; 5; 23; 18; 9; 1; 3])
 
    
     let fib = Portable.Recursive.Fibonnaci |> Seq.take 50 |> Seq.filter (fun x -> x % 2 = 0) |> Seq.toList
@@ -124,7 +124,7 @@ module ``Luncher`` =
                   yield! getRestaurants (l |> List.filter ((<>) number))
             }
 
-    let restuarants = ["Cheap easian";
+    let restuarants = ["Cheap asian";
                        "Belegschaft";
                        "Essian"; 
                        "Karmel"; 
@@ -155,6 +155,25 @@ module ``Luncher`` =
 
     let restarurantsToGoTo = visitedRestaurants |> getNotVisitedRestaruants restuarants  
 
+    /////////
     let randomRestaurants = restuarants |> getRestaurants |> Seq.toList 
 
-    visitedRestaurants |> getNotVisitedRestaruants randomRestaurants
+    let getNVR l = 
+        getNotVisitedRestaruants randomRestaurants l
+
+    visitedRestaurants |> getNVR
+
+    /////////
+
+module ``Luncher on steroids`` =
+    type data = CsvProvider<"Restaurants.csv", ";">
+    let restaurantData = data.Load("Restaurants.csv")
+
+    restaurantData.Rows |> Seq.sortBy (fun r -> r.Stars)
+                        |> Seq.map (fun r -> r.Name, r.Stars)
+                        |> Chart.Bar
+
+    /////////
+    let cvs = restaurantData.Rows |> Seq.map (fun r -> r.Name) |> Seq.toList |> ``Luncher``.getRestaurants |> Seq.toList 
+
+    ``Luncher``.visitedRestaurants |> ``Luncher``.getNotVisitedRestaruants cvs
