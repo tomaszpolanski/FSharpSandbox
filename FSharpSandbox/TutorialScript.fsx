@@ -107,11 +107,9 @@ module ``Everybody loves recursion`` =
 
                 smallerElements @ [first] @ largerElements
 
-    printfn "%A" (quickSort [1; 5; 23; 18; 9; 1; 3])
+    printfn "%A" (quickSort [1; 5; 23; 18; 9; 1; 3])    
 
-   
-    let fib = Portable.Recursive.Fibonnaci |> Seq.take 50 |> Seq.filter (fun x -> x % 2 = 0) |> Seq.toList
-    
+    [1; 5; 23; 18; 9; 1; 3] |> quickSort |> printfn "%A"
 
 module ``Luncher`` = 
     
