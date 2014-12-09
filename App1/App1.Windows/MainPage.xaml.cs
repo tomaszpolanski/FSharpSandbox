@@ -50,5 +50,27 @@ namespace App1
 
         }
 
+        private int Bad()
+        {
+            int i;    
+            int length;
+            var array = new int[] { 1, 2, 3 };
+            int sum = 0;  
+
+            length = array.Length;  
+            for (i = 0; i < length; i++)
+            {
+                sum += array[i];
+            }
+            return sum;
+        }
+
+        private int Good()
+        {
+            var array = new int[] { 1, 2, 3 };
+            return array.Sum(x => x);
+        }
+
+
     }
 }

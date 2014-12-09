@@ -60,6 +60,7 @@
     <None Include="Script1.fsx" />
     <Compile Include="Test.fs" />
     <Compile Include="Program.fs" />
+    <None Include="TutorialScript.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">

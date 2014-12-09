@@ -12,7 +12,7 @@ module Test1 =
          member this.StartMyAsyncAsTask cancellation =
                 Async.StartAsTask(myAsync, cancellationToken = cancellation)
 
-module Test2 =
+module Recursive =
     let rec private factorials (num, factorial) = 
        seq { yield (num, factorial)
              let num = num + 1
@@ -21,9 +21,9 @@ module Test2 =
     
     let Factorials = factorials (0, 1)
 
-    let rec private fibonnaci (num, next) = 
+    let rec private fibonnaci num next = 
        seq { 
              yield num
-             yield! fibonnaci (next, num + next)
+             yield! fibonnaci next (num + next)
            }
-    let Fibonnaci = fibonnaci (0, 1)
+    let Fibonnaci = fibonnaci 0 1

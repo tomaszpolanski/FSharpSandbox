@@ -390,9 +390,9 @@ runAll()
 
 #load "../Portable/Portable.fs"
 
-Portable.Test2.Factorials |> Seq.take 5 |> List.ofSeq |> Seq.iter ( fun factorial -> printf "%A" factorial )
+Portable.Recursive.Factorials |> Seq.take 5 |> List.ofSeq |> Seq.iter ( fun factorial -> printf "%A" factorial )
 
-Portable.Test2.Fibonnaci |> Seq.take 10 |> List.ofSeq |> Seq.iter ( fun fibo -> printf "%A " fibo )
+Portable.Recursive.Fibonnaci |> Seq.take 10 |> List.ofSeq |> Seq.iter ( fun fibo -> printf "%A " fibo )
 
 /////////
 
@@ -879,3 +879,63 @@ module ``Curried functions`` =
 
     add 1 2
 
+module Method =
+
+    let printHello() = printfn "hello"
+
+module ``Extracting parameters`` =
+    type Name = {first:string; last:string} // define a new type
+    let bob = {first="bob"; last="smith"} // define a value 
+ 
+    // single parameter style
+    let f1 name = // pass in single parameter 
+        let {first=f; last=l} = name // extract in body of function 
+        printfn "first=%s; last=%s" f l
+// match in the parameter itself
+    let f2 {first=f; last=l} = // direct pattern matching 
+        printfn "first=%s; last=%s" f l 
+
+    f1 bob
+    f2 bob
+
+module ``Short functions`` =
+    let add x y = x + y // explicit
+    let add' x = (+) x // point free
+ 
+    let add1Times2 x = (x + 1) * 2 // explicit
+    let add1Times2' = (+) 1 >> (*) 2 // point free
+ 
+    let sum list = List.reduce (fun sum e -> sum+e) list // explicit
+    let sum' = List.reduce (+) // point free
+/////////////////
+ 
+type Adder = int -> int
+type AdderGenerator = int -> Adder
+//////////////////
+ 
+module Test21 =
+
+    // declare the type outside the module
+    type PersonType = {FirstName:string; Last:string}
+    // declare a module for functions that work on the type
+    module Person = 
+        // constructor
+        let create first last = {FirstName=first; Last=last}
+        // method that works on the type
+        let fullName {FirstName=first; Last=last} = 
+            first + " " + last
+    // test
+    let person = Person.create "john" "doe" 
+    Person.fullName person |> printfn "Fullname=%s"
+
+//////////////
+module ``And Or matching`` =
+
+    let y = 
+        match (1,0) with 
+        // OR -- same as multiple cases on one line
+        | (2,x) | (3,x) | (4,x) -> printfn "x=%A" x 
+        // AND -- must match both patterns at once
+        // Note only a single "&" is used
+        | (2,x) & (_,1) -> printfn "x=%A" x 
+        | x -> printf "No match for %A" x
