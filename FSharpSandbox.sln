@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App1.Windows", "App1\App1.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App1.WindowsPhone", "App1\App1.WindowsPhone\App1.WindowsPhone.csproj", "{779DBB07-8BD2-4F2E-8831-D832B1EC6F2E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LuncherConsole", "LuncherConsole\LuncherConsole.fsproj", "{2CD77228-C14E-45A4-87E3-938E7C84441E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		App1\App1.Shared\App1.Shared.projitems*{7fa9340e-b1bf-4344-b729-5b5bc762bde1}*SharedItemsImports = 13
@@ -112,6 +114,22 @@ Global
 		{779DBB07-8BD2-4F2E-8831-D832B1EC6F2E}.Release|x86.ActiveCfg = Release|x86
 		{779DBB07-8BD2-4F2E-8831-D832B1EC6F2E}.Release|x86.Build.0 = Release|x86
 		{779DBB07-8BD2-4F2E-8831-D832B1EC6F2E}.Release|x86.Deploy.0 = Release|x86
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|ARM.Build.0 = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|x64.Build.0 = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CD77228-C14E-45A4-87E3-938E7C84441E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
