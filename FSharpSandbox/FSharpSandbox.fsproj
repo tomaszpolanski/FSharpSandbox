@@ -61,6 +61,10 @@
     <Compile Include="Test.fs" />
     <Compile Include="Program.fs" />
     <None Include="TutorialScript.fsx" />
+    <None Include="Sandbox.fsx" />
+    <None Include="Radiode.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">

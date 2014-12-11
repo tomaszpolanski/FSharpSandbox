@@ -939,3 +939,6 @@ module ``And Or matching`` =
         // Note only a single "&" is used
         | (2,x) & (_,1) -> printfn "x=%A" x 
         | x -> printf "No match for %A" x
+
+module ``Android magic`` = 
+    
