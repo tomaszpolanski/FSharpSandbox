@@ -2,6 +2,7 @@
 #r "System.Xml.Linq.dll"
 
 open FSharp.Data
+open System.IO
 
 type data = CsvProvider< "Radio.csv", ";" >
 let radioData = data.Load("Radio.csv")
@@ -14,22 +15,18 @@ type Language =
       tAndC : string }
 
 let languages = 
-    radioData.Rows
-    |> Seq.map (fun language -> 
-           { Language.folder = language.Folder
-             faq = language.FAQ
-             legal = language.LEGAL
-             privacy = language.Privacy
-             tAndC = language.``Terms and Conditions`` })
-
-open System.IO
-
+    radioData.Rows |> Seq.map (fun language -> 
+                          { Language.folder = language.Folder
+                            faq = language.FAQ
+                            legal = language.LEGAL
+                            privacy = language.Privacy
+                            tAndC = language.``Terms and Conditions`` })
 
 let createFolder folderName = Directory.CreateDirectory(@"d:\Temp\" + folderName)
 
-
-type Authors = XmlProvider<"sample.xml">
+type Authors = XmlProvider< "sample.xml" >
 let sample = Authors.Load("sample.xml")
+
 let processData language = 
     createFolder language.folder |> ignore
     sample.Strings.[0].XElement.Value <- language.faq
@@ -38,7 +35,4 @@ let processData language =
     sample.Strings.[3].XElement.Value <- language.tAndC
     sample.XElement.Save(@"d:\Temp\" + language.folder + "\urlConfig.xml")
 
-
-languages |> Seq.iter  processData
-
-
+languages |> Seq.iter processData
