@@ -62,9 +62,12 @@
     <Compile Include="Program.fs" />
     <None Include="TutorialScript.fsx" />
     <None Include="Sandbox.fsx" />
-    <None Include="Radiode.csv">
+    <None Include="Radio.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="sample.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">

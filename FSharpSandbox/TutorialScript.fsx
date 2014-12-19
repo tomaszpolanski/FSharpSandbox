@@ -12,32 +12,28 @@ open FSharp.Data
 module ``The basics`` = 
     let x = 2
     let y = x + 3
-
     let addTwo arg = arg + 2
-
+    
     addTwo 3
-
+    
     let add first second = first + second
-
+    
     add 1 9
 
-module Piping =
+module Piping = 
     let printHello what = printfn "Hello %s!" what
-
+    
     printHello "world"
-
     "earth" |> printHello
-
+    
     let printHello2 say what = printfn "%s %s!" say what
-
+    
     printHello2 "Hi" "world"
-
     "world" |> printHello2 "Yo"
 
 module ListTest = 
     let list = [ 1..10 ]
     let oddList = List.filter (fun x -> x % 2 = 1) list
-
     let squareList = list |> List.map (fun x -> x * x)
     
     let oddSquareList = 

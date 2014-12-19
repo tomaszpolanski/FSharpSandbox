@@ -940,5 +940,31 @@ module ``And Or matching`` =
         | (2,x) & (_,1) -> printfn "x=%A" x 
         | x -> printf "No match for %A" x
 
-module ``Android magic`` = 
-    
+module ``function`` =
+    let divideBy  top bottom  =
+        if bottom = 0
+        then None
+        else Some(top/bottom)
+
+    divideBy 6 2
+
+    let devideBy' top = function
+        | 0 -> None
+        | x -> Some(top/x)
+
+    devideBy' 8 2
+ module ``id`` =
+    let x = 1
+
+    id x
+
+module Infix =
+
+    let (>>=) m f = 
+        printfn "expression is %A" m
+        f m
+
+    let loggingWorkflow = 
+        1 >>= (+) 2 >>= (*) 42 >>= id
+
+    1 |> (+) 2 |> (*) 42 |> id
