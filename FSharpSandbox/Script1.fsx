@@ -968,3 +968,15 @@ module Infix =
         1 >>= (+) 2 >>= (*) 42 >>= id
 
     1 |> (+) 2 |> (*) 42 |> id
+
+module Join =
+    
+    let join separator values = 
+        let rec loop current = function
+            | [] -> current
+            | x::xs -> match current with
+                        | "" -> loop (sprintf "%A" x) xs
+                        | _  -> loop (sprintf "%s%s%A" current  separator x) xs
+        loop "" values
+
+    join ", " []
