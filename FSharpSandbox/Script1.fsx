@@ -980,3 +980,15 @@ module Join =
         loop "" values
 
     join ", " []
+
+module ``Infinit loop`` = 
+    let rec loop index : unit = 
+        let max = 100000000
+        match index with
+        | x when x % (max / 10) = 0 -> 
+            printfn "Number %d" x
+            loop (x + 1)
+
+        | x -> loop (x + 1)
+
+    loop 1
