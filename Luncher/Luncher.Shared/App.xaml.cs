@@ -13,7 +13,7 @@ namespace Luncher
 {
     public sealed partial class App : MvvmAppBase
     {
-        private readonly IUnityContainer _container = new UnityContainer();
+        public readonly IUnityContainer Container = new UnityContainer();
 
         public App()
         {
@@ -29,11 +29,11 @@ namespace Luncher
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            _container.RegisterInstance(NavigationService);
-            _container.RegisterInstance(SessionStateService);
+            Container.RegisterInstance(NavigationService);
+            Container.RegisterInstance(SessionStateService);
 
-            _container.RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager());
-
+            Container.RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IGestureRecognizerService, GestureRecognizerService>(new ContainerControlledLifetimeManager());
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => GetViewModelType(viewType.Name));
             return base.OnInitializeAsync(args);
         }
@@ -48,7 +48,7 @@ namespace Luncher
 
         protected override object Resolve(Type type)
         {
-            return _container.Resolve(type);
+            return Container.Resolve(type);
         }
 
         protected override void OnRegisterKnownTypesForSerialization()

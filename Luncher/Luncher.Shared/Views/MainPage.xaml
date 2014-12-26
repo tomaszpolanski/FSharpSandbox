@@ -10,12 +10,14 @@
     prismmvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:controls="using:Luncher.Controls"
     x:Name="pageRoot"
+    ManipulationMode="All"
     mc:Ignorable="d">
 
     <controls:PageContainer GoBackCommand="{Binding ElementName=pageRoot, Path=GoBackCommand}" 
-                            Title="Luncher">
+                            Title="Luncher"
+                            x:Name="www">
         <controls:PageContainer.Body>
-            <Grid>
+            <Grid x:Name="qqq">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>

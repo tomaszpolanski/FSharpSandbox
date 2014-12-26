@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luncher.Services;
+using System.Reactive;
 
 namespace Luncher.ViewModels
 {
@@ -16,11 +17,11 @@ namespace Luncher.ViewModels
 
         public ReactiveCommand NextCommand { get; private set; }
 
-        public MainPageViewModel(IFileSystemService fileSystemService)
+        public MainPageViewModel(IFileSystemService fileSystemService, IGestureRecognizerService gestureService)
         {
             NextCommand = new ReactiveCommand();
             var restaurantObservable = DefineRestaurants(Observable.FromAsync(token => ReadRestaurantFileAsync("Restaurants.txt", fileSystemService, token)));
-            RestaurantText = DefineRestaurantText(NextCommand, restaurantObservable)
+            RestaurantText = DefineRestaurantText(gestureService.SwipeObservable, restaurantObservable)
                        .ToReadonlyReactiveProperty(string.Empty);
         }
 
@@ -38,9 +39,9 @@ namespace Luncher.ViewModels
                             .RefCount();
         }
 
-        private static IObservable<string> DefineRestaurantText(IObservable<object> commandTrigger, IObservable<RestaurantType> restaurantObservable)
+        private static IObservable<string> DefineRestaurantText(IObservable<Unit> commandTrigger, IObservable<RestaurantType> restaurantObservable)
         {
-            return commandTrigger.StartWith((object)null)
+            return commandTrigger.StartWith(Unit.Default)
                        .Zip(restaurantObservable, (_, restaurant) => restaurant)
                        .Select(restaurant => restaurant.Name)
                        .Select(TextDescription);
