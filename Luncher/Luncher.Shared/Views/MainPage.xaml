@@ -20,9 +20,10 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Textt}"
+                <TextBlock Text="{Binding RestaurantText.Value}"
                            HorizontalAlignment="Center"/>
                 <Button Content="Neee"
+                        Command="{Binding NextCommand}"
                         HorizontalAlignment="Center"
                         Grid.Row="1"/>
             </Grid>
