@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Launcher.Services.Universal;
+using Luncher.Services;
+using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Unity;
 using System;
 using System.Globalization;
@@ -29,6 +31,8 @@ namespace Luncher
         {
             _container.RegisterInstance(NavigationService);
             _container.RegisterInstance(SessionStateService);
+
+            _container.RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager());
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => GetViewModelType(viewType.Name));
             return base.OnInitializeAsync(args);

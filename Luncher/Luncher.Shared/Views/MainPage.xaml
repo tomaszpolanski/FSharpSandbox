@@ -21,8 +21,10 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding RestaurantText.Value}"
-                           HorizontalAlignment="Center"/>
-                <Button Content="Neee"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource HeaderTextStyle}"
+                           Grid.Row="0"/>
+                <Button Content="Nope"
                         Command="{Binding NextCommand}"
                         HorizontalAlignment="Center"
                         Grid.Row="1"/>

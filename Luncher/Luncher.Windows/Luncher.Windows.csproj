@@ -104,6 +104,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\..\Launcher.Services.Universal\Launcher.Services.Universal.csproj">
+      <Project>{71eaed28-ee41-46d7-9da8-b28a1a81bc10}</Project>
+      <Name>Launcher.Services.Universal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Luncher.Services\Luncher.Services.csproj">
+      <Project>{07a0da32-7f8d-4d9e-843f-dd8ded51b871}</Project>
+      <Name>Luncher.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Luncher.ViewModels\Luncher.ViewModels.csproj">
       <Project>{8ff45d50-861f-4417-b394-722a00852a53}</Project>
       <Name>Luncher.ViewModels</Name>

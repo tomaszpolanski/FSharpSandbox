@@ -1,9 +1,11 @@
 ﻿using Luncher.Api;
-using System.Collections.Generic;
 using System.Linq;
 using Utilities.Reactive;
 using System;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Luncher.Services;
 
 namespace Luncher.ViewModels
 {
@@ -14,27 +16,33 @@ namespace Luncher.ViewModels
 
         public ReactiveCommand NextCommand { get; private set; }
 
-        public MainPageViewModel()
+        public MainPageViewModel(IFileSystemService fileSystemService)
         {
             NextCommand = new ReactiveCommand();
-            var restaurantObservable = DefineRestaurants("1,2,3,4,5,6");
+            var restaurantObservable = DefineRestaurants(Observable.FromAsync(token => ReadRestaurantFileAsync("Restaurants.txt", fileSystemService, token)));
             RestaurantText = DefineRestaurantText(NextCommand, restaurantObservable)
                        .ToReadonlyReactiveProperty(string.Empty);
         }
 
-        private static IObservable<RestaurantType> DefineRestaurants(string restaurantList)
+        private static Task<string> ReadRestaurantFileAsync(string fileName, IFileSystemService fileSystemService, CancellationToken token)
         {
-            return LuncherApi.ImHungry(LuncherApi.GetRestaurants(restaurantList)).Take(100)
-                .ToObservable()
-                .Publish()
-                .RefCount();
+            return fileSystemService.ReadEmbeddedFileAsync(fileName, token);
+        }
+
+        private static IObservable<RestaurantType> DefineRestaurants(IObservable<string> restaurantOb)
+        {
+            return
+                restaurantOb.Select(restaurants => LuncherApi.GetRestaurants(restaurants)) 
+                            .SelectMany( r => LuncherApi.ImHungry(r).Take(100).ToObservable())
+                            .Publish()
+                            .RefCount();
         }
 
         private static IObservable<string> DefineRestaurantText(IObservable<object> commandTrigger, IObservable<RestaurantType> restaurantObservable)
         {
             return commandTrigger.StartWith((object)null)
                        .Zip(restaurantObservable, (_, restaurant) => restaurant)
-                       .Select(restaurant => restaurant.name)
+                       .Select(restaurant => restaurant.Name)
                        .Select(TextDescription);
         }
 

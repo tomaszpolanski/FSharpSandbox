@@ -1,10 +1,11 @@
 ﻿namespace Luncher.Api
 
-type RestaurantType = {name:string}
+type RestaurantType = {Name:string}
 
 module Restaurant = 
 
-    let create restaurantName = {name = restaurantName}
+
+    let create (restaurantName : string) = {Name = restaurantName.Trim()}
 
     let rec randomize (l : seq<'T>) = 
         let rnd = System.Random()

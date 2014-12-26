@@ -21,7 +21,7 @@ type LuncherApi() =
                         //printfn "Nothing left, you are sooo picky!"
                         //printf "Try again."
                         //System.Console.ReadLine() |> ignore
-                        yield {name=""}
+                        yield {Name=""}
                         yield! imHungryRec []
                     | x :: xs -> 
                         //printf "How about %A?" x
