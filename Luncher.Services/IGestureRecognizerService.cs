@@ -3,8 +3,14 @@ using System.Reactive;
 
 namespace Luncher.Services
 {
+    public enum SwipeType
+    {
+        Left,
+        Right
+    }
     public interface IGestureRecognizerService
     {
-        IObservable<Unit> SwipeObservable { get; }
+
+        IObservable<SwipeType> SwipeObservable { get; }
     }
 }

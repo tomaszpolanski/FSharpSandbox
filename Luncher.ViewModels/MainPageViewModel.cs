@@ -14,6 +14,7 @@ namespace Luncher.ViewModels
     {
 
         public ReadonlyReactiveProperty<string> RestaurantText { get; private set; }
+        public ReadonlyReactiveProperty<string> PickedRestaurantText { get; private set; }
 
         public ReactiveCommand NextCommand { get; private set; }
 
@@ -21,8 +22,14 @@ namespace Luncher.ViewModels
         {
             NextCommand = new ReactiveCommand();
             var restaurantObservable = DefineRestaurants(Observable.FromAsync(token => ReadRestaurantFileAsync("Restaurants.txt", fileSystemService, token)));
-            RestaurantText = DefineRestaurantText(gestureService.SwipeObservable, restaurantObservable)
+            var currentRestaurantOb = DefineRestaurantText(gestureService.SwipeObservable.Where(swipe => swipe == SwipeType.Left).SelectUnit(), restaurantObservable);
+            RestaurantText = currentRestaurantOb
+                .Select(TextDescription)
                        .ToReadonlyReactiveProperty(string.Empty);
+
+            PickedRestaurantText = gestureService.SwipeObservable.Where(swipe => swipe == SwipeType.Right)
+                .CombineLatest(currentRestaurantOb, (_, restaurant) => string.Format("Let's go for {0}!", restaurant))
+                .ToReadonlyReactiveProperty();
         }
 
         private static Task<string> ReadRestaurantFileAsync(string fileName, IFileSystemService fileSystemService, CancellationToken token)
@@ -43,8 +50,8 @@ namespace Luncher.ViewModels
         {
             return commandTrigger.StartWith(Unit.Default)
                        .Zip(restaurantObservable, (_, restaurant) => restaurant)
-                       .Select(restaurant => restaurant.Name)
-                       .Select(TextDescription);
+                       .Select(restaurant => restaurant.Name);
+                       
         }
 
         private static string TextDescription(string restaurant)

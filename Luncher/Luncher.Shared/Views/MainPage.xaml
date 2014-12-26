@@ -26,8 +26,9 @@
                            HorizontalAlignment="Center"
                            Style="{StaticResource HeaderTextStyle}"
                            Grid.Row="0"/>
-                <Button Content="Nope"
-                        Command="{Binding NextCommand}"
+                <TextBlock Text="{Binding PickedRestaurantText.Value}"
+                           Style="{StaticResource HeaderTextStyle}"
+                           Foreground="Green"
                         HorizontalAlignment="Center"
                         Grid.Row="1"/>
             </Grid>

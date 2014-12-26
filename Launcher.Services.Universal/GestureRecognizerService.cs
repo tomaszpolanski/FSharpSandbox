@@ -2,8 +2,6 @@
 using Windows.UI.Xaml;
 using System.Reactive.Linq;
 using Windows.UI.Xaml.Input;
-using Utilities.Reactive;
-using System.Reactive;
 using Luncher.Services;
 using System.Reactive.Subjects;
 
@@ -13,7 +11,7 @@ namespace Launcher.Services.Universal
     {
         private Subject<UIElement> _elementSubject = new Subject<UIElement>();
 
-        public IObservable<Unit> SwipeObservable { get; private set; }
+        public IObservable<SwipeType> SwipeObservable { get; private set; }
 
         public GestureRecognizerService()
         {
@@ -25,15 +23,15 @@ namespace Launcher.Services.Universal
             _elementSubject.OnNext(element);
         }
 
-        private static IObservable<Unit> DefineSwipe(IObservable<UIElement> elementOb)
+        private static IObservable<SwipeType> DefineSwipe(IObservable<UIElement> elementOb)
         {
             return elementOb.Select(element => element != null ?
                                                GetGestureObservable(element) :
-                                               Observable.Never<Unit>())
+                                               Observable.Never<SwipeType>())
                             .Switch();
         }
 
-        private static IObservable<Unit> GetGestureObservable( UIElement element)
+        private static IObservable<SwipeType> GetGestureObservable( UIElement element)
         {
             var completedOb = Observable.FromEventPattern<ManipulationDeltaEventHandler, ManipulationDeltaRoutedEventArgs>
                 (h => element.ManipulationDelta += h,
@@ -43,11 +41,10 @@ namespace Launcher.Services.Universal
                 (h => element.ManipulationStarted += h,
                  h => element.ManipulationStarted -= h)
                 .Select(arg => arg.EventArgs.Position)
-                .Do(_ => System.Diagnostics.Debug.WriteLine("Start " + DateTime.Now))
                 .Select(start => completedOb.Select(end => new { Delta = end.Position.X - start.X, Arg = end })
-                                            .Where(delta => delta.Delta >= 800)
+                                            .Where(delta => Math.Abs(delta.Delta) >= 800)
                                             .Do(delta => delta.Arg.Complete())
-                                            .SelectUnit())
+                                            .Select(delta => delta.Delta > 0 ? SwipeType.Right : SwipeType.Left))
                 .Switch();
 
         }
