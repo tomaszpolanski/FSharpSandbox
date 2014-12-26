@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using Microsoft.Practices.Prism.StoreApps;
-using Luncher.Api;
+﻿using Microsoft.Practices.Prism.StoreApps;
 
 namespace Luncher.Views
 {
@@ -12,15 +9,7 @@ namespace Luncher.Views
     {
         public MainPage()
         {
-            this.InitializeComponent();
-            var list = LuncherApi.GetRestaurants("1,2,3,4,5,6");
-            var res = GetNotVisitedRestaurants(list).Take(10).ToList();
-            
-        }
-
-        private static IEnumerable<Api.RestaurantType> GetNotVisitedRestaurants(IEnumerable<Api.RestaurantType> allRestaurant)
-        {
-            return LuncherApi.ImHungry(allRestaurant);
+            InitializeComponent();            
         }
     }
 }

@@ -104,10 +104,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\Luncher.Api\Luncher.Api.fsproj">
-      <Project>{ca691404-f2f0-4417-b96c-50b9a6cd8c29}</Project>
-      <Name>Luncher.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Luncher.ViewModels\Luncher.ViewModels.csproj">
       <Project>{8ff45d50-861f-4417-b394-722a00852a53}</Project>
       <Name>Luncher.ViewModels</Name>
@@ -131,6 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

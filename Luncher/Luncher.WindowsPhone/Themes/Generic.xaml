@@ -1,0 +1,25 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Luncher.Controls">
+
+    <Style TargetType="controls:PageContainer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PageContainer">
+                    <Grid  Margin="20,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{TemplateBinding Title}"
+                                       IsHitTestVisible="false"
+                                       Style="{StaticResource SubheaderTextBlockStyle}"/>
+                        <ContentPresenter Content="{TemplateBinding Body}" 
+                                          Grid.Row="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -30,16 +30,16 @@ namespace Luncher
             _container.RegisterInstance(NavigationService);
             _container.RegisterInstance(SessionStateService);
 
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
-            {
-                var viewModelTypeName = string.Format(CultureInfo.InvariantCulture,
-                    "Luncher.ViewModels.{0}ViewModel, Luncher.ViewModels, Version=1.0.0.0, Culture=neutral",
-                    viewType.Name);
-                var viewModelType = Type.GetType(viewModelTypeName);
-
-                return viewModelType;
-            });
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => GetViewModelType(viewType.Name));
             return base.OnInitializeAsync(args);
+        }
+
+        private static Type GetViewModelType(string name)
+        {
+            var viewModelTypeName = string.Format(CultureInfo.InvariantCulture,
+                "Luncher.ViewModels.{0}ViewModel, Luncher.ViewModels, Version=1.0.0.0, Culture=neutral",
+                name);
+            return Type.GetType(viewModelTypeName);
         }
 
         protected override object Resolve(Type type)

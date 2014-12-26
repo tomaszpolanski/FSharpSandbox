@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8FF45D50-861F-4417-B394-722A00852A53}</ProjectGuid>
+    <ProjectGuid>{2466D064-C9BD-4306-8AEB-9ACDC9EAD11D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Luncher.ViewModels</RootNamespace>
-    <AssemblyName>Luncher.ViewModels</AssemblyName>
+    <RootNamespace>ClassLibrary1</RootNamespace>
+    <AssemblyName>ClassLibrary1</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,13 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BindableBase.cs" />
-    <Compile Include="MainPageViewModel.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Luncher.Api\Luncher.Api.fsproj">
-      <Project>{13f49215-cd5a-436d-95f1-4a46bc02e2ef}</Project>
+      <Project>{ca691404-f2f0-4417-b96c-50b9a6cd8c29}</Project>
       <Name>Luncher.Api</Name>
     </ProjectReference>
   </ItemGroup>

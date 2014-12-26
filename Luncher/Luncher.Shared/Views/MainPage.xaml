@@ -8,11 +8,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
     prismmvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:controls="using:Luncher.Controls"
     x:Name="pageRoot"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    </Grid>
+    <controls:PageContainer GoBackCommand="{Binding ElementName=pageRoot, Path=GoBackCommand}" 
+                            Title="Luncher">
+        <controls:PageContainer.Body>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Textt}"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Neee"
+                        HorizontalAlignment="Center"
+                        Grid.Row="1"/>
+            </Grid>
+        </controls:PageContainer.Body>
+    </controls:PageContainer>
     
 </prism:VisualStateAwarePage>
