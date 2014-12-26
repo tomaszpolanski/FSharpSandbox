@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luncher.Windows", "Luncher\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luncher.WindowsPhone", "Luncher\Luncher.WindowsPhone\Luncher.WindowsPhone.csproj", "{5381F02E-7351-4BD7-83A9-51DE137114B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luncher.ViewModels", "Luncher.ViewModels\Luncher.ViewModels.csproj", "{8FF45D50-861F-4417-B394-722A00852A53}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Luncher\Luncher.Shared\Luncher.Shared.projitems*{2320b21c-9e3a-46f3-badb-36d013dd9ea8}*SharedItemsImports = 13
@@ -207,6 +209,22 @@ Global
 		{5381F02E-7351-4BD7-83A9-51DE137114B5}.Release|x86.ActiveCfg = Release|x86
 		{5381F02E-7351-4BD7-83A9-51DE137114B5}.Release|x86.Build.0 = Release|x86
 		{5381F02E-7351-4BD7-83A9-51DE137114B5}.Release|x86.Deploy.0 = Release|x86
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|x64.Build.0 = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Debug|x86.Build.0 = Debug|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|ARM.Build.0 = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|x64.ActiveCfg = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|x64.Build.0 = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FF45D50-861F-4417-B394-722A00852A53}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
