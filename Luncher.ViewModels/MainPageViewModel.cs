@@ -27,8 +27,8 @@ namespace Luncher.ViewModels
                 .Select(TextDescription)
                        .ToReadonlyReactiveProperty(string.Empty);
 
-            PickedRestaurantText = gestureService.SwipeObservable.Where(swipe => swipe == SwipeType.Right)
-                .CombineLatest(currentRestaurantOb, (_, restaurant) => string.Format("Let's go for {0}!", restaurant))
+            PickedRestaurantText = gestureService.SwipeObservable.Select(swipe => swipe == SwipeType.Right)
+                .CombineLatest(currentRestaurantOb, (accept, restaurant) => string.IsNullOrEmpty(restaurant) || !accept ? string.Empty : string.Format("Let's go for {0}!", restaurant))
                 .ToReadonlyReactiveProperty();
         }
 
