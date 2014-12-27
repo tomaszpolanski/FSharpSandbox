@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="IFileSystemService.cs" />
     <Compile Include="IGestureRecognizerService.cs" />
+    <Compile Include="ITextToSpeechService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

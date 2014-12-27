@@ -10,19 +10,20 @@ using System.Reactive;
 
 namespace Luncher.ViewModels
 {
-    public class MainPageViewModel : BindableBase
+    public class MainPageViewModel : BindableBase, IDisposable
     {
 
         public ReadonlyReactiveProperty<string> RestaurantText { get; private set; }
         public ReadonlyReactiveProperty<string> PickedRestaurantText { get; private set; }
 
-        public ReactiveCommand NextCommand { get; private set; }
+        private readonly IDisposable _speechSubscription;
 
-        public MainPageViewModel(IFileSystemService fileSystemService, IGestureRecognizerService gestureService)
+        public MainPageViewModel(IFileSystemService fileSystemService, IGestureRecognizerService gestureService, ITextToSpeechService speechService)
         {
-            NextCommand = new ReactiveCommand();
             var restaurantObservable = DefineRestaurants(Observable.FromAsync(token => ReadRestaurantFileAsync("Restaurants.txt", fileSystemService, token)));
-            var currentRestaurantOb = DefineRestaurantText(gestureService.SwipeObservable.Where(swipe => swipe == SwipeType.Left).SelectUnit(), restaurantObservable);
+            var currentRestaurantOb = DefineRestaurantText(gestureService.SwipeObservable
+                                                                         .Where(swipe => swipe == SwipeType.Left)
+                                                                         .SelectUnit(), restaurantObservable);
             RestaurantText = currentRestaurantOb
                 .Select(TextDescription)
                        .ToReadonlyReactiveProperty(string.Empty);
@@ -30,6 +31,18 @@ namespace Luncher.ViewModels
             PickedRestaurantText = gestureService.SwipeObservable.Select(swipe => swipe == SwipeType.Right)
                 .CombineLatest(currentRestaurantOb, (accept, restaurant) => string.IsNullOrEmpty(restaurant) || !accept ? string.Empty : string.Format("Let's go for {0}!", restaurant))
                 .ToReadonlyReactiveProperty();
+
+            _speechSubscription = PickedRestaurantText.Where(text => !string.IsNullOrEmpty(text))
+                                                      .Select(text => Observable.FromAsync(token => speechService.PlayTextAsync(text, token)))
+                                                      .Switch()
+                                                      .Subscribe(_speechSubscription => { });
+        }
+
+        public void Dispose()
+        {
+            RestaurantText.Dispose();
+            PickedRestaurantText.Dispose();
+            _speechSubscription.Dispose();
         }
 
         private static Task<string> ReadRestaurantFileAsync(string fileName, IFileSystemService fileSystemService, CancellationToken token)
@@ -59,6 +72,7 @@ namespace Luncher.ViewModels
             return string.IsNullOrEmpty(restaurant) ? "You are sooo picky!\nTry again!"
                                                     : string.Format("How about {0}?", restaurant);
         }
+
 
     }
 }

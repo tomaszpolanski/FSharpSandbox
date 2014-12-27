@@ -7,11 +7,7 @@
     
     <prism:MvvmAppBase.Resources>
         <ResourceDictionary>
-            <Style x:Key="SandboxTitleStyleTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TitleTextBlockStyle}">
-                <Setter Property="FontSize" Value="40" />
-                <Setter Property="Margin" Value="0,15,0,0" />
-            </Style>
-                
+
              <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>

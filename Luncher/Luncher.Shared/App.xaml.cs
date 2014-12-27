@@ -34,6 +34,9 @@ namespace Luncher
 
             Container.RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IGestureRecognizerService, GestureRecognizerService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
+
+            
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => GetViewModelType(viewType.Name));
             return base.OnInitializeAsync(args);
         }
