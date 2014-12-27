@@ -17,7 +17,7 @@
     <controls:PageContainer GoBackCommand="{Binding ElementName=pageRoot, Path=GoBackCommand}" 
                             Title="Luncher">
         <controls:PageContainer.Body>
-            <Grid >
+            <Grid Background="Transparent">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -39,11 +39,11 @@
     </controls:PageContainer>
     <Page.BottomAppBar>
         <CommandBar>
-            <CommandBar.SecondaryCommands>
+            <CommandBar.PrimaryCommands>
                 <AppBarButton Label="History"
                               Icon="SyncFolder"
                               Command="{Binding HistoryCommand}"/>
-            </CommandBar.SecondaryCommands>
+            </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 </controls:DisposingPage>

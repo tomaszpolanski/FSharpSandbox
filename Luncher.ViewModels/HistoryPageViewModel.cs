@@ -3,13 +3,16 @@ using Luncher.Services;
 using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
+using System.Reactive.Linq;
+using Utilities.Reactive;
 
 namespace Luncher.ViewModels
 {
     public class HistoryPageViewModel : BindableBase, IDisposable
     {
-        private readonly IDisposable _sharedItemsSubscription;
+        private readonly IDisposable _pickedRestaurantSubscription;
 
         public ObservableCollection<RestaurantType> HistoryList { get; private set; }
 
@@ -20,20 +23,25 @@ namespace Luncher.ViewModels
             INavigator navigator)
         {
             HistoryList = new ObservableCollection<RestaurantType>();
-
-            _sharedItemsSubscription = historyRepository.PickedRestaurantObservable.Subscribe(AddHistoryItem);
+            Debug.WriteLine("grrrrrr");
+            _pickedRestaurantSubscription = historyRepository.PickedRestaurantObservable
+                .DelaySubscription(TimeSpan.FromSeconds(1))
+                .ObserveOnUI()
+                .Subscribe(AddHistoryItem);
 
             GoBackCommand = new DelegateCommand(navigator.GoBack);
+
             
         }
 
         public void Dispose()
         {
-            _sharedItemsSubscription.Dispose();
+            _pickedRestaurantSubscription.Dispose();
         }
 
         private void AddHistoryItem(RestaurantType restaurant)
         {
+            Debug.WriteLine(restaurant.Name);
             HistoryList.Add(restaurant);
         }
     }

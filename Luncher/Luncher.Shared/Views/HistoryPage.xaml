@@ -23,7 +23,7 @@
                     <DataTemplate>
                         <StackPanel Width="400"
                                 Margin="10">
-                            <TextBlock Text="{Binding}"
+                            <TextBlock Text="{Binding Name}"
                                    FontWeight="Bold"/>
                         </StackPanel>
                     </DataTemplate>

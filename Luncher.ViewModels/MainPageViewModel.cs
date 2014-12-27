@@ -39,16 +39,17 @@ namespace Luncher.ViewModels
                        .ToReadonlyReactiveProperty(string.Empty);
 
             var pickedRestaurant = gestureService.SwipeObservable.Select(swipe => swipe == SwipeType.Right)
-                .CombineLatest(currentRestaurantOb, (accept, restaurant) => !accept ? Restaurant.Empty : restaurant)
-                .Where(restaurant => !Restaurant.IsEmpty(restaurant));
-            PickedRestaurantText = pickedRestaurant.Select(restaurant => string.Format("Let's go for {0}!", restaurant.Name))
+                .CombineLatest(currentRestaurantOb, (accept, restaurant) => !accept ? Restaurant.Empty : restaurant);
+            PickedRestaurantText = pickedRestaurant.Select(restaurant => !Restaurant.IsEmpty(restaurant) ? string.Format("Let's go for {0}!", restaurant.Name) : string.Empty)
                                                    .ToReadonlyReactiveProperty();
 
-            _speechSubscription = PickedRestaurantText.Select(text => Observable.FromAsync(token => speechService.PlayTextAsync(text, token)))
+            _speechSubscription = PickedRestaurantText.Where(text => !string.IsNullOrEmpty(text))
+                                                      .Select(text => Observable.FromAsync(token => speechService.PlayTextAsync(text, token)))
                                                       .Switch()
                                                       .Subscribe(_ => { });
 
-            _historySubscription = pickedRestaurant.Subscribe(historyRepository.Add);
+            _historySubscription = pickedRestaurant
+                .Where(restaurant => !Restaurant.IsEmpty(restaurant)).Subscribe(historyRepository.Add);
 
 
             HistoryCommand = new DelegateCommand(() => navigator.Navigate("History", null));

@@ -20,7 +20,7 @@ namespace Launcher.Services.Universal
         private readonly ICacheService _cacheService;
         private readonly Subject<RestaurantType> _addedDataSubject = new Subject<RestaurantType>();
         private readonly IConnectableObservable<RestaurantType> _dataObservable;
-        private readonly Collection<RestaurantType> _pickedRestaurant = new Collection<RestaurantType>();
+        private readonly Collection<string> _pickedRestaurant = new Collection<string>();
         private readonly IDisposable _pickRestaurantSubscription;
         private readonly IDisposable _updatedSubscription;
 
@@ -44,7 +44,7 @@ namespace Launcher.Services.Universal
 
         private void AddPickedRestaurant(RestaurantType data)
         {
-            _pickedRestaurant.Add(data);
+            _pickedRestaurant.Add(data.Name);
         }
 
         private static IObservable<RestaurantType> DefineShareDataObservable(ICacheService service)
@@ -57,13 +57,13 @@ namespace Launcher.Services.Universal
                              .RefCount();
         }
 
-        private static async Task<ICollection<RestaurantType>> GetShareDataAsync(ICacheService service, CancellationToken token)
+        private static async Task<IEnumerable<RestaurantType>> GetShareDataAsync(ICacheService service, CancellationToken token)
         {
             try
             {
                 // Retrieve the items from the cache
-                var data = await service.GetDataAsync<ICollection<RestaurantType>>(CacheFileName, token);
-                return data;
+                var data = await service.GetDataAsync<ICollection<string>>(CacheFileName, token);
+                return data.Select(name => new RestaurantType(name));
             }
             catch (FileNotFoundException)
             {
