@@ -25,10 +25,12 @@ namespace Launcher.Services.Universal
 
         private static IObservable<SwipeType> DefineSwipe(IObservable<UIElement> elementOb)
         {
-            return elementOb.Select(element => element != null ?
+            return elementOb.DistinctUntilChanged().Select(element => element != null ?
                                                GetGestureObservable(element) :
                                                Observable.Never<SwipeType>())
-                            .Switch();
+                            .Switch()
+                            .Publish()
+                            .RefCount();
         }
 
         private static IObservable<SwipeType> GetGestureObservable( UIElement element)
@@ -42,7 +44,7 @@ namespace Launcher.Services.Universal
                  h => element.ManipulationStarted -= h)
                 .Select(arg => arg.EventArgs.Position)
                 .Select(start => completedOb.Select(end => new { Delta = end.Position.X - start.X, Arg = end })
-                                            .Where(delta => Math.Abs(delta.Delta) >= 800)
+                                            .Where(delta => Math.Abs(delta.Delta) >= 200)
                                             .Do(delta => delta.Arg.Complete())
                                             .Select(delta => delta.Delta > 0 ? SwipeType.Right : SwipeType.Left))
                 .Switch();

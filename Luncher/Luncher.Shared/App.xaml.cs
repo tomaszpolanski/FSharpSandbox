@@ -43,7 +43,8 @@ namespace Luncher
             var viewModelTypeName = string.Format(CultureInfo.InvariantCulture,
                 "Luncher.ViewModels.{0}ViewModel, Luncher.ViewModels, Version=1.0.0.0, Culture=neutral",
                 name);
-            return Type.GetType(viewModelTypeName);
+            var viewModel = Type.GetType(viewModelTypeName);
+            return viewModel;
         }
 
         protected override object Resolve(Type type)

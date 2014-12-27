@@ -150,6 +150,10 @@
       <Project>{07a0da32-7f8d-4d9e-843f-dd8ded51b871}</Project>
       <Name>Luncher.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Luncher.ViewModels\Luncher.ViewModels.csproj">
+      <Project>{8ff45d50-861f-4417-b394-722a00852a53}</Project>
+      <Name>Luncher.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

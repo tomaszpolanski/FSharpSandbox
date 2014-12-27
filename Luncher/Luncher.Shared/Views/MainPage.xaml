@@ -11,26 +11,33 @@
     xmlns:controls="using:Luncher.Controls"
     x:Name="pageRoot"
     ManipulationMode="All"
+    Background="Transparent"
     mc:Ignorable="d">
 
     <controls:PageContainer GoBackCommand="{Binding ElementName=pageRoot, Path=GoBackCommand}" 
                             Title="Luncher"
-                            x:Name="www">
+                            ManipulationMode="All">
         <controls:PageContainer.Body>
-            <Grid x:Name="qqq">
+            <Grid x:Name="qqq"
+                  ManipulationMode="All"
+                  VerticalAlignment="Stretch"
+                  Background="Transparent">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding RestaurantText.Value}"
+                           TextWrapping="WrapWholeWords"                           
                            HorizontalAlignment="Center"
                            Style="{StaticResource HeaderTextStyle}"
                            Grid.Row="0"/>
                 <TextBlock Text="{Binding PickedRestaurantText.Value}"
+                           TextWrapping="WrapWholeWords"    
                            Style="{StaticResource HeaderTextStyle}"
                            Foreground="Green"
-                        HorizontalAlignment="Center"
-                        Grid.Row="1"/>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"/>
             </Grid>
         </controls:PageContainer.Body>
     </controls:PageContainer>
