@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Luncher.Api\Luncher.Api.fsproj">
+      <Project>{13f49215-cd5a-436d-95f1-4a46bc02e2ef}</Project>
+      <Name>Luncher.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Luncher.Services\Luncher.Services.csproj">
       <Project>{07a0da32-7f8d-4d9e-843f-dd8ded51b871}</Project>
       <Name>Luncher.Services</Name>
@@ -45,12 +49,25 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheService.cs" />
     <Compile Include="FileSystemService.cs" />
     <Compile Include="GestureRecognizerService.cs" />
+    <Compile Include="HistoryRepository.cs" />
+    <Compile Include="Navigator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoamingCacheService.cs" />
     <Compile Include="TextToSpeechService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism.Mvvm">
+      <HintPath>..\packages\Prism.Mvvm.1.1.1\lib\portable-windows8+wpa81+net45\Microsoft.Practices.Prism.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.SharedInterfaces">
+      <HintPath>..\packages\Prism.Mvvm.1.1.1\lib\portable-windows8+wpa81+net45\Microsoft.Practices.Prism.SharedInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.StoreApps">
+      <HintPath>..\packages\Prism.StoreApps.2.0.0\lib\portable-windows8+wpa81\Microsoft.Practices.Prism.StoreApps.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-win81+wpa81\System.Reactive.Core.dll</HintPath>
     </Reference>

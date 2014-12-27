@@ -34,8 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ICacheService.cs" />
     <Compile Include="IFileSystemService.cs" />
     <Compile Include="IGestureRecognizerService.cs" />
+    <Compile Include="IHistoryRepository.cs" />
+    <Compile Include="INavigator.cs" />
     <Compile Include="ITextToSpeechService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Luncher.Api\Luncher.Api.fsproj">
+      <Project>{13f49215-cd5a-436d-95f1-4a46bc02e2ef}</Project>
+      <Name>Luncher.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

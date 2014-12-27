@@ -1,14 +1,13 @@
 ﻿using Launcher.Services.Universal;
 using Luncher.Services;
-using Microsoft.Practices.Prism.StoreApps;
 using Windows.UI.Xaml;
 using Microsoft.Practices.Unity;
-
+using Luncher.Controls;
 
 namespace Luncher.Views
 {
 
-    public sealed partial class MainPage : VisualStateAwarePage
+    public sealed partial class MainPage : DisposingPage
     {
         public MainPage()
         {

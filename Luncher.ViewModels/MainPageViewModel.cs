@@ -7,6 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luncher.Services;
 using System.Reactive;
+using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
+
 
 namespace Luncher.ViewModels
 {
@@ -17,8 +20,15 @@ namespace Luncher.ViewModels
         public ReadonlyReactiveProperty<string> PickedRestaurantText { get; private set; }
 
         private readonly IDisposable _speechSubscription;
+        private readonly IDisposable _historySubscription;
 
-        public MainPageViewModel(IFileSystemService fileSystemService, IGestureRecognizerService gestureService, ITextToSpeechService speechService)
+        public ICommand HistoryCommand { get; private set; }
+
+        public MainPageViewModel(IFileSystemService fileSystemService, 
+            IGestureRecognizerService gestureService, 
+            ITextToSpeechService speechService,
+            IHistoryRepository historyRepository,
+            INavigator navigator)
         {
             var restaurantObservable = DefineRestaurants(Observable.FromAsync(token => ReadRestaurantFileAsync("Restaurants.txt", fileSystemService, token)));
             var currentRestaurantOb = DefineRestaurantText(gestureService.SwipeObservable
@@ -28,14 +38,20 @@ namespace Luncher.ViewModels
                 .Select(TextDescription)
                        .ToReadonlyReactiveProperty(string.Empty);
 
-            PickedRestaurantText = gestureService.SwipeObservable.Select(swipe => swipe == SwipeType.Right)
-                .CombineLatest(currentRestaurantOb, (accept, restaurant) => string.IsNullOrEmpty(restaurant) || !accept ? string.Empty : string.Format("Let's go for {0}!", restaurant))
-                .ToReadonlyReactiveProperty();
+            var pickedRestaurant = gestureService.SwipeObservable.Select(swipe => swipe == SwipeType.Right)
+                .CombineLatest(currentRestaurantOb, (accept, restaurant) => !accept ? Restaurant.Empty : restaurant)
+                .Where(restaurant => !Restaurant.IsEmpty(restaurant));
+            PickedRestaurantText = pickedRestaurant.Select(restaurant => string.Format("Let's go for {0}!", restaurant.Name))
+                                                   .ToReadonlyReactiveProperty();
 
-            _speechSubscription = PickedRestaurantText.Where(text => !string.IsNullOrEmpty(text))
-                                                      .Select(text => Observable.FromAsync(token => speechService.PlayTextAsync(text, token)))
+            _speechSubscription = PickedRestaurantText.Select(text => Observable.FromAsync(token => speechService.PlayTextAsync(text, token)))
                                                       .Switch()
-                                                      .Subscribe(_speechSubscription => { });
+                                                      .Subscribe(_ => { });
+
+            _historySubscription = pickedRestaurant.Subscribe(historyRepository.Add);
+
+
+            HistoryCommand = new DelegateCommand(() => navigator.Navigate("History", null));
         }
 
         public void Dispose()
@@ -43,6 +59,7 @@ namespace Luncher.ViewModels
             RestaurantText.Dispose();
             PickedRestaurantText.Dispose();
             _speechSubscription.Dispose();
+            _historySubscription.Dispose();
         }
 
         private static Task<string> ReadRestaurantFileAsync(string fileName, IFileSystemService fileSystemService, CancellationToken token)
@@ -59,18 +76,17 @@ namespace Luncher.ViewModels
                             .RefCount();
         }
 
-        private static IObservable<string> DefineRestaurantText(IObservable<Unit> commandTrigger, IObservable<RestaurantType> restaurantObservable)
+        private static IObservable<RestaurantType> DefineRestaurantText(IObservable<Unit> commandTrigger, IObservable<RestaurantType> restaurantObservable)
         {
             return commandTrigger.StartWith(Unit.Default)
-                       .Zip(restaurantObservable, (_, restaurant) => restaurant)
-                       .Select(restaurant => restaurant.Name);
+                       .Zip(restaurantObservable, (_, restaurant) => restaurant);
                        
         }
 
-        private static string TextDescription(string restaurant)
+        private static string TextDescription(RestaurantType restaurant)
         {
-            return string.IsNullOrEmpty(restaurant) ? "You are sooo picky!\nTry again!"
-                                                    : string.Format("How about {0}?", restaurant);
+            return string.IsNullOrEmpty(restaurant.Name) ? "You are sooo picky!\nTry again!"
+                                                    : string.Format("How about {0}?", restaurant.Name);
         }
 
 

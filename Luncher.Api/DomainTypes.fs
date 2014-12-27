@@ -4,8 +4,9 @@ type RestaurantType = {Name:string}
 
 module Restaurant = 
 
-
     let create (restaurantName : string) = {Name = restaurantName.Trim()}
+    let Empty = {Name = ""}
+    let IsEmpty {Name = name} = name = ""
 
     let rec randomize (l : seq<'T>) = 
         let rnd = System.Random()

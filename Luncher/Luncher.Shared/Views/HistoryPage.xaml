@@ -1,0 +1,34 @@
+﻿<controls:DisposingPage
+    x:Class="Luncher.Views.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Luncher"
+    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
+    prismmvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:controls="using:Luncher.Controls"
+    x:Name="pageRoot"
+    Background="Transparent"
+    mc:Ignorable="d">
+
+
+    <controls:PageContainer GoBackCommand="{Binding GoBackCommand}" 
+                            Title="History">
+        <controls:PageContainer.Body>
+            <GridView ItemsSource="{Binding HistoryList}"
+                      SelectionMode="None">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="400"
+                                Margin="10">
+                            <TextBlock Text="{Binding}"
+                                   FontWeight="Bold"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </controls:PageContainer.Body>
+    </controls:PageContainer>
+</controls:DisposingPage>

@@ -30,13 +30,15 @@ namespace Luncher
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             Container.RegisterInstance(NavigationService);
+            Container.RegisterInstance<INavigator>(new Navigator(NavigationService));
             Container.RegisterInstance(SessionStateService);
 
             Container.RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IGestureRecognizerService, GestureRecognizerService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICacheService, RoamingCacheService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IHistoryRepository, HistoryRepository>(new ContainerControlledLifetimeManager());
 
-            
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => GetViewModelType(viewType.Name));
             return base.OnInitializeAsync(args);
         }
