@@ -14,7 +14,7 @@ namespace Luncher.ViewModels
     {
         private readonly IDisposable _pickedRestaurantSubscription;
 
-        public ObservableCollection<RestaurantType> HistoryList { get; private set; }
+        public ObservableCollection<PickedRestaurantType> HistoryList { get; private set; }
 
         public ICommand GoBackCommand { get; private set; }
 
@@ -22,7 +22,7 @@ namespace Luncher.ViewModels
         public HistoryPageViewModel(IHistoryRepository historyRepository,
             INavigator navigator)
         {
-            HistoryList = new ObservableCollection<RestaurantType>();
+            HistoryList = new ObservableCollection<PickedRestaurantType>();
             Debug.WriteLine("grrrrrr");
             _pickedRestaurantSubscription = historyRepository.PickedRestaurantObservable
                 .DelaySubscription(TimeSpan.FromSeconds(1))
@@ -39,9 +39,8 @@ namespace Luncher.ViewModels
             _pickedRestaurantSubscription.Dispose();
         }
 
-        private void AddHistoryItem(RestaurantType restaurant)
+        private void AddHistoryItem(PickedRestaurantType restaurant)
         {
-            Debug.WriteLine(restaurant.Name);
             HistoryList.Add(restaurant);
         }
     }

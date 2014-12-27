@@ -9,10 +9,14 @@
     xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
     prismmvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:controls="using:Luncher.Controls"
+    xmlns:converters="using:Luncher.Converters"
     x:Name="pageRoot"
     Background="Transparent"
     mc:Ignorable="d">
 
+    <controls:DisposingPage.Resources>
+        <converters:DayConverter x:Key="DayConverter" />
+    </controls:DisposingPage.Resources>
 
     <controls:PageContainer GoBackCommand="{Binding GoBackCommand}" 
                             Title="History">
@@ -22,9 +26,12 @@
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="400"
-                                Margin="10">
-                            <TextBlock Text="{Binding Name}"
+                                    Margin="10,0"
+                                    Orientation="Vertical">
+                            <TextBlock Text="{Binding Restaurant}"
                                    FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Date, Converter={StaticResource DayConverter}}"/>
+                  
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

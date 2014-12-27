@@ -63,3 +63,14 @@ module CommonLibrary =
         | Failure f1,Success _  -> Failure f1
         | Success _ ,Failure f2 -> Failure f2
         | Failure f1,Failure f2 -> Failure (addFailure f1 f2)
+
+
+module Date =
+    open System
+
+    let parseData (date: DateTime) = 
+        let difference = DateTime.Now - date
+        match int difference.TotalDays with
+            | days when days < 1 -> "Less then one day ago"
+            | days when days = 1 -> "One day ago"
+            | days -> sprintf "%A days ago" days

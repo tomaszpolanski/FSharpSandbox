@@ -18,13 +18,13 @@ namespace Launcher.Services.Universal
         private const string CacheFileName = "HistoryRepository";
 
         private readonly ICacheService _cacheService;
-        private readonly Subject<RestaurantType> _addedDataSubject = new Subject<RestaurantType>();
-        private readonly IConnectableObservable<RestaurantType> _dataObservable;
-        private readonly Collection<string> _pickedRestaurant = new Collection<string>();
+        private readonly Subject<PickedRestaurantType> _addedDataSubject = new Subject<PickedRestaurantType>();
+        private readonly IConnectableObservable<PickedRestaurantType> _dataObservable;
+        private readonly Collection<PickedRestaurantType> _pickedRestaurant = new Collection<PickedRestaurantType>();
         private readonly IDisposable _pickRestaurantSubscription;
         private readonly IDisposable _updatedSubscription;
 
-        public IObservable<RestaurantType> PickedRestaurantObservable { get { return _dataObservable; } }
+        public IObservable<PickedRestaurantType> PickedRestaurantObservable { get { return _dataObservable; } }
 
         public HistoryRepository(ICacheService cacheService)
         {
@@ -42,12 +42,12 @@ namespace Launcher.Services.Universal
             _updatedSubscription.Dispose();
         }
 
-        private void AddPickedRestaurant(RestaurantType data)
+        private void AddPickedRestaurant(PickedRestaurantType data)
         {
-            _pickedRestaurant.Add(data.Name);
+            _pickedRestaurant.Add(data);
         }
 
-        private static IObservable<RestaurantType> DefineShareDataObservable(ICacheService service)
+        private static IObservable<PickedRestaurantType> DefineShareDataObservable(ICacheService service)
         {
             return Observable.FromAsync(_ => GetShareDataAsync(service, CancellationToken.None))
                              .WhereIsNotNull()
@@ -57,13 +57,13 @@ namespace Launcher.Services.Universal
                              .RefCount();
         }
 
-        private static async Task<IEnumerable<RestaurantType>> GetShareDataAsync(ICacheService service, CancellationToken token)
+        private static async Task<IEnumerable<PickedRestaurantType>> GetShareDataAsync(ICacheService service, CancellationToken token)
         {
             try
             {
                 // Retrieve the items from the cache
-                var data = await service.GetDataAsync<ICollection<string>>(CacheFileName, token);
-                return data.Select(name => new RestaurantType(name));
+                var data = await service.GetDataAsync<ICollection<PickedRestaurantType>>(CacheFileName, token);
+                return data;
             }
             catch (FileNotFoundException)
             {
@@ -73,9 +73,9 @@ namespace Launcher.Services.Universal
 
         }
 
-        public void Add(RestaurantType shareData)
+        public void Add(PickedRestaurantType pickedRestaurant)
         {
-            _addedDataSubject.OnNext(shareData);
+            _addedDataSubject.OnNext(pickedRestaurant);
             _cacheService.SaveDataAsync(CacheFileName, _pickedRestaurant, CancellationToken.None);
         }
     }

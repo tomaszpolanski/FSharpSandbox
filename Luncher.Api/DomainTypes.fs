@@ -1,12 +1,19 @@
 ﻿namespace Luncher.Api
 
+open System
+
 type RestaurantType = {Name:string}
+
+[<CLIMutable>]
+type PickedRestaurantType = {Restaurant: string; Date: DateTime}
 
 module Restaurant = 
 
     let create (restaurantName : string) = {Name = restaurantName.Trim()}
     let Empty = {Name = ""}
     let IsEmpty {Name = name} = name = ""
+
+    let CreatePicked restaurant = {Restaurant=restaurant.Name; Date = DateTime.Now}
 
     let rec randomize (l : seq<'T>) = 
         let rnd = System.Random()

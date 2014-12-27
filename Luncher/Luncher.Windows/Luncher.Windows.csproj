@@ -108,6 +108,10 @@
       <Project>{71eaed28-ee41-46d7-9da8-b28a1a81bc10}</Project>
       <Name>Launcher.Services.Universal</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Luncher.Api\Luncher.Api.fsproj">
+      <Project>{13f49215-cd5a-436d-95f1-4a46bc02e2ef}</Project>
+      <Name>Luncher.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Luncher.Services\Luncher.Services.csproj">
       <Project>{07a0da32-7f8d-4d9e-843f-dd8ded51b871}</Project>
       <Name>Luncher.Services</Name>

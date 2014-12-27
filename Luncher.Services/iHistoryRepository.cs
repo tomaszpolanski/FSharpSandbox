@@ -5,8 +5,8 @@ namespace Luncher.Services
 {
     public interface IHistoryRepository
     {
-        IObservable<RestaurantType> PickedRestaurantObservable { get; }
+        IObservable<PickedRestaurantType> PickedRestaurantObservable { get; }
 
-        void Add(RestaurantType restaurant);
+        void Add(PickedRestaurantType restaurant);
     }
 }

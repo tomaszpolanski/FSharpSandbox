@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DisposingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PageContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DayConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>

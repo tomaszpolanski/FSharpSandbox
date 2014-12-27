@@ -49,7 +49,9 @@ namespace Luncher.ViewModels
                                                       .Subscribe(_ => { });
 
             _historySubscription = pickedRestaurant
-                .Where(restaurant => !Restaurant.IsEmpty(restaurant)).Subscribe(historyRepository.Add);
+                .Where(restaurant => !Restaurant.IsEmpty(restaurant))
+                .Select(Restaurant.CreatePicked)
+                .Subscribe(historyRepository.Add);
 
 
             HistoryCommand = new DelegateCommand(() => navigator.Navigate("History", null));
