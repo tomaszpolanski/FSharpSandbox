@@ -8,11 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prismmvvm="using:Microsoft.Practices.Prism.Mvvm"
     prismmvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:designViewModels="using:Luncher.DesignViewModels"
     xmlns:controls="using:Luncher.Controls"
     x:Name="pageRoot"
     ManipulationMode="All"
     Background="Transparent"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance designViewModels:MainPageViewModel, IsDesignTimeCreatable=True}">
 
     <controls:PageContainer GoBackCommand="{Binding ElementName=pageRoot, Path=GoBackCommand}" 
                             Title="Luncher">

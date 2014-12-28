@@ -10,9 +10,11 @@
     prismmvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:controls="using:Luncher.Controls"
     xmlns:converters="using:Luncher.Converters"
+    xmlns:designViewModels="using:Luncher.DesignViewModels"
     x:Name="pageRoot"
     Background="Transparent"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance designViewModels:HistoryPageViewModel, IsDesignTimeCreatable=True}">
 
     <controls:DisposingPage.Resources>
         <converters:DayConverter x:Key="DayConverter" />

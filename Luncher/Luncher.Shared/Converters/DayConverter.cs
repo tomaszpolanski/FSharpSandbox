@@ -1,8 +1,6 @@
 ﻿using Luncher.Api;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Windows.UI.Xaml.Data;
 
 namespace Luncher.Converters
