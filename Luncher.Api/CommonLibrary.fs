@@ -71,6 +71,6 @@ module Date =
     let parseData (date: DateTime) = 
         let difference = DateTime.Now - date
         match int difference.TotalDays with
-            | days when days < 1 -> "Less then one day ago"
-            | days when days = 1 -> "One day ago"
+            | days when days < 1 -> "Today"
+            | days when days = 1 -> "Yesterday"
             | days -> sprintf "%A days ago" days
