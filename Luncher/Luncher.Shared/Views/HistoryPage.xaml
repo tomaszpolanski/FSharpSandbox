@@ -22,15 +22,18 @@
                             Title="History">
         <controls:PageContainer.Body>
             <GridView ItemsSource="{Binding HistoryList}"
-                      SelectionMode="None">
+                      SelectionMode="None"
+                      Margin="-10,0,0,0">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="400"
                                     Margin="10,0"
                                     Orientation="Vertical">
-                            <TextBlock Text="{Binding Restaurant}"
-                                   FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Date, Converter={StaticResource DayConverter}}"/>
+                            <TextBlock Text="{Binding Restaurant}" 
+                                       FontWeight="Bold"
+                                       Style="{StaticResource BodyTextBlockStyle}"/>
+                            <TextBlock Text="{Binding Date, Converter={StaticResource DayConverter}}"
+                                       Style="{StaticResource BodyTextBlockStyle}"/>
                   
                         </StackPanel>
                     </DataTemplate>
