@@ -75,6 +75,6 @@ module Date =
             | true -> "Today"
             | false -> let difference = DateTime.Now - date
                        match int difference.TotalDays with
-                            | days when days <= 0 -> "Back to the Future™"
+                            | days when days < 0 -> "Back to the Future™"
                             | days when days <= 1 -> "Yesterday"
                             | days -> sprintf "%A days ago" days
