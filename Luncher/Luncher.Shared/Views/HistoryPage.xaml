@@ -22,12 +22,11 @@
                             Title="History">
         <controls:PageContainer.Body>
             <GridView ItemsSource="{Binding HistoryList}"
-                      SelectionMode="None"
-                      Margin="-10,0,0,0">
+                      SelectionMode="None">
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="400"
-                                    Margin="10,0"
+                        <StackPanel Width="300"
+                                    Margin="0,5,0,10"
                                     Orientation="Vertical">
                             <TextBlock Text="{Binding Restaurant}" 
                                        FontWeight="Bold"
