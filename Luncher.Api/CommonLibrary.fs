@@ -68,9 +68,13 @@ module CommonLibrary =
 module Date =
     open System
 
+    let isToday (date: DateTime) = date.DayOfYear = DateTime.Now.DayOfYear && date.Year = DateTime.Now.Year
+
     let parseData (date: DateTime) = 
-        let difference = DateTime.Now - date
-        match int difference.TotalDays with
-            | days when days < 1 -> "Today"
-            | days when days = 1 -> "Yesterday"
-            | days -> sprintf "%A days ago" days
+        match isToday date with
+            | true -> "Today"
+            | false -> let difference = DateTime.Now - date
+                       match int difference.TotalDays with
+                            | days when days <= 0 -> "Back to the Future™"
+                            | days when days <= 1 -> "Yesterday"
+                            | days -> sprintf "%A days ago" days
