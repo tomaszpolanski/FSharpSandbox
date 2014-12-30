@@ -18,14 +18,9 @@ type LuncherApi() =
                 seq {
                     match notVisited all visited with
                     | [] -> 
-                        //printfn "Nothing left, you are sooo picky!"
-                        //printf "Try again."
-                        //System.Console.ReadLine() |> ignore
                         yield {Name=""}
                         yield! imHungryRec []
                     | x :: xs -> 
-                        //printf "How about %A?" x
-                        //System.Console.ReadLine() |> ignore
                         yield x
                         yield! imHungryRec (x :: visited)
                 }
