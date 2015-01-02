@@ -82,7 +82,7 @@ namespace Luncher.Tests.ViewModels
         [TestMethod]
         public void GoingBack()
         {
-            var vm = CreateViewModel();
+            var vm = CreateViewModel(); 
 
             vm.GoBackCommand.Execute(null);
 
