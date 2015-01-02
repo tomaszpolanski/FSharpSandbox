@@ -19,12 +19,13 @@ namespace Luncher.ViewModels
         public ICommand GoBackCommand { get; private set; }
 
         public HistoryPageViewModel(IHistoryRepository historyRepository,
-            INavigator navigator)
+            INavigator navigator,
+            ISchedulerProvider schedulerProvider)
         {
             HistoryList = new ObservableCollection<PickedRestaurantType>();
 
             _pickedRestaurantSubscription = historyRepository.PickedRestaurantObservable
-                .DelaySubscription(TimeSpan.FromSeconds(1))
+                .DelaySubscription(TimeSpan.FromSeconds(1), schedulerProvider.Default)
                 .ObserveOnUI()
                 .Subscribe(AddHistoryItem);
 

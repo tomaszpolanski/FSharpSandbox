@@ -38,6 +38,7 @@ namespace Luncher
             Container.RegisterType<ITextToSpeechService, TextToSpeechService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ICacheService, RoamingCacheService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IHistoryRepository, HistoryRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ISchedulerProvider, SchedulerProvider>(new ContainerControlledLifetimeManager());
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => GetViewModelType(viewType.Name));
             return base.OnInitializeAsync(args);

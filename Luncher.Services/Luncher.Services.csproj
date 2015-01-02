@@ -39,6 +39,7 @@
     <Compile Include="IGestureRecognizerService.cs" />
     <Compile Include="IHistoryRepository.cs" />
     <Compile Include="INavigator.cs" />
+    <Compile Include="ISchedulerProvider.cs" />
     <Compile Include="ITextToSpeechService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
