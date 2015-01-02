@@ -13,12 +13,12 @@ type LuncherApi() =
 
 
 
-   static member  ImHungry (all : seq<RestaurantType>) : seq<RestaurantType> = 
+   static member ImHungry (all : seq<RestaurantType>) : seq<RestaurantType> = 
             let rec imHungryRec (visited : RestaurantType list) = 
                 seq {
                     match notVisited all visited with
                     | [] -> 
-                        yield {Name=""}
+                        yield {Name = ""}
                         yield! imHungryRec []
                     | x :: xs -> 
                         yield x

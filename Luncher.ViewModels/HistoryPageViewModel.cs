@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Reactive.Linq;
 using Utilities.Reactive;
+using Microsoft.Practices.Prism.Mvvm;
 
 namespace Luncher.ViewModels
 {

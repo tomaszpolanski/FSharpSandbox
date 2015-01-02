@@ -9,7 +9,7 @@ using Luncher.Services;
 using System.Reactive;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-
+using Microsoft.Practices.Prism.Mvvm;
 
 namespace Luncher.ViewModels
 {
