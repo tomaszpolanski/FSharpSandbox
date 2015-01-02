@@ -25,7 +25,7 @@ namespace Luncher.ViewModels
             _pickedRestaurantSubscription = historyRepository.PickedRestaurantObservable
                 .DelaySubscription(TimeSpan.FromSeconds(1))
                 .ObserveOnUI()
-                .Subscribe(HistoryList.Add);
+                .Subscribe(AddHistoryItem);
 
             GoBackCommand = new DelegateCommand(navigator.GoBack);
         }
@@ -33,6 +33,11 @@ namespace Luncher.ViewModels
         public void Dispose()
         {
             _pickedRestaurantSubscription.Dispose();
+        }
+
+        private void AddHistoryItem(PickedRestaurantType item)
+        {
+            HistoryList.Insert(0, item);
         }
     }
 }
