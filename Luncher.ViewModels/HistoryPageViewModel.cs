@@ -1,4 +1,5 @@
-﻿using Luncher.Api;
+﻿using System.Collections.Generic;
+using Luncher.Api;
 using Luncher.Services;
 using Microsoft.Practices.Prism.Commands;
 using System;
@@ -25,6 +26,7 @@ namespace Luncher.ViewModels
             HistoryList = new ObservableCollection<PickedRestaurantType>();
 
             _pickedRestaurantSubscription = historyRepository.PickedRestaurantObservable
+                .Buffer(TimeSpan.FromMilliseconds(300), schedulerProvider.Default)
                 .DelaySubscription(TimeSpan.FromSeconds(1), schedulerProvider.Default)
                 .ObserveOnUI()
                 .Subscribe(AddHistoryItem);
@@ -37,9 +39,12 @@ namespace Luncher.ViewModels
             _pickedRestaurantSubscription.Dispose();
         }
 
-        private void AddHistoryItem(PickedRestaurantType item)
+        private void AddHistoryItem(IList<PickedRestaurantType> items)
         {
-            HistoryList.Insert(0, item);
+            foreach (var item in items)
+            {
+                HistoryList.Insert(0, item);
+            }
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Luncher.ViewModels
         private static IObservable<RestaurantType> DefineRestaurants(IObservable<string> restaurantOb)
         {
             return
-                restaurantOb.Select(restaurants => LuncherApi.GetRestaurants(restaurants)) 
+                restaurantOb.Select(LuncherApi.GetRestaurants) 
                             .SelectMany( r => LuncherApi.ImHungry(r).Take(100).ToObservable())
                             .Publish()
                             .RefCount();

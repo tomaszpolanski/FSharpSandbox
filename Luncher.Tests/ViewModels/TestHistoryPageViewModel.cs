@@ -53,6 +53,8 @@ namespace Luncher.Tests.ViewModels
 
             subject.OnNext(new PickedRestaurantType());
 
+            _testScheduler.AdvanceBy(TimeSpan.FromMilliseconds(300).Ticks);
+
             Assert.AreEqual(1, vm.HistoryList.Count);
         }
 
