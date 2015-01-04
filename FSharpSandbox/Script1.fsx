@@ -42,8 +42,6 @@ Chart.Column(minimumWage).With3D()
 
 ////////
 
-///////
-
 let data = WorldBankData.GetDataContext()
 
 
@@ -992,3 +990,71 @@ module ``Infinit loop`` =
         | x -> loop (x + 1)
 
     loop 1
+
+module ``Property based testin`` =
+
+    let rand = System.Random()
+    let randInt() = rand.Next()
+
+    type Expected = Expected of int
+    type Acctual = Acctual of int
+    type TestResult =
+        | Success of string
+        | Failure of string * Expected * Acctual
+    
+    let compare name (expected, acctual)= 
+        match (expected, acctual) with
+        | (Expected e, Acctual a) when e = a ->
+            Success name
+        | (Expected e, Acctual a) -> 
+            Failure(name, expected, acctual)
+    
+    let takeLastWhile p (source: seq<_>) = 
+        seq { use e = source.GetEnumerator() 
+              let latest = ref Unchecked.defaultof<_>
+              while e.MoveNext() && (latest := e.Current; p !latest) do 
+                  yield !latest
+              yield !latest }
+
+    let repeatTest count test =
+        let testSeq = seq { for _ in [0..count] do yield test() }
+        testSeq |> takeLastWhile (fun result -> match result with
+                                                    | Success s -> true
+                                                    | Failure _ -> false)
+                |> Seq.last
+
+    let runTest = repeatTest 100
+
+    let printTest test = 
+        match runTest test with
+            | Success name ->
+                printfn "Pass: %A" name
+            | Failure (name, expected, acctual) ->
+                printfn "Failure: %A failed with %A, %A" name expected acctual
+
+    let add x y = x + y
+ 
+    let ``not order dependent test``() =
+        let x, y = randInt(), randInt()
+
+        let expected = Expected (add y x)
+        let accutal = Acctual (add x y)
+        compare "not order dependent test" (expected, accutal)
+
+    let ``and twice one is the same as adding two``() =
+        let x =  randInt()
+
+        let expected = Expected (x |> add 2)
+        let accutal = Acctual ( x |> add 1 |> add 1)
+        compare "and twice one is the same as adding two" (expected, accutal)
+
+    let ``zero is the same as doing nothing``() =
+        let x = randInt()
+
+        let expected = Expected (x)
+        let accutal = Acctual (add x 0)
+        compare "zero is the same as doing nothing" (expected, accutal)
+
+    printTest ``not order dependent test``
+    printTest ``zero is the same as doing nothing``
+    printTest ``and twice one is the same as adding two``
