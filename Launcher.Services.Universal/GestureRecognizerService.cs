@@ -9,7 +9,7 @@ namespace Launcher.Services.Universal
 {
     public class GestureRecognizerService : IGestureRecognizerService
     {
-        private Subject<UIElement> _elementSubject = new Subject<UIElement>();
+        private readonly Subject<UIElement> _elementSubject = new Subject<UIElement>();
 
         public IObservable<SwipeType> SwipeObservable { get; private set; }
 
