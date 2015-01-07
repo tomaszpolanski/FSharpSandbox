@@ -9,6 +9,9 @@ open FSharp.Data
 
 #load "../Portable/Portable.fs"
 
+#r "../packages/FsCheck.1.0.4/lib/net45/FsCheck.dll"
+open FsCheck  
+
 module ``The basics`` = 
     let x = 2
     let y = x + 3
@@ -181,3 +184,102 @@ module ``Luncher on steroids`` =
         |> Seq.toList
     
     Luncher.visitedRestaurants |> Luncher.getNotVisitedRestaruants cvs
+
+module ``Property based testing base`` =
+
+    let areEqual = function
+        | (x, y) when x = y ->  printfn "Passed"
+        | _ -> printfn "Failed"
+
+    let addProper x y = x + y
+
+    let addV0 x y = 571324987
+
+    let addV1 x y = 3 
+
+    let addV2 x y =
+        if x=2 && y=2 then 
+            4
+        else
+            3 
+
+    let addV3 x y =
+        if x=1 && y=2 then 
+            3
+        else if x=2 && y=2 then 
+            4
+        else
+            5  
+
+    let addV4 x y = x * y
+
+    let addV5 x y = 0
+
+    let add = addProper
+
+
+    let ``When I add 1 + 2, I expect 3``()=
+        let result = add 1 2 // v0 v1
+        areEqual (3, result)
+
+    ``When I add 1 + 2, I expect 3``()
+
+
+    let ``When I add 2 + 2, I expect 4``()=
+        let result = add 2 2 // v1 v2
+        areEqual(4, result)
+
+    ``When I add 2 + 2, I expect 4``()
+
+
+    let ``When I add 3 + 2, I expect 5``()=
+        let result = add 3 2 // v2 v3
+        areEqual(5, result)
+
+    ``When I add 3 + 2, I expect 5``()
+  
+  // let's get smarter
+    let rand = System.Random()
+    let randInt() = rand.Next(10)
+
+    let ``When I add two random numbers, I expect their sum``()=
+        let x = randInt()
+        let y = randInt()
+        let expected = x + y
+        let actual = add x y // proper
+        areEqual(expected,actual)
+
+    ``When I add two random numbers, I expect their sum``()
+
+    let ``When I add two random numbers (100 times), I expect their sum``()=
+        for _ in [1..100] do
+            let x = randInt()
+            let y = randInt()
+            let expected = x + y
+            let actual = add x y  // proper
+            areEqual(expected,actual)
+
+    ``When I add two random numbers (100 times), I expect their sum``()
+
+    // Property testing
+
+    let ``When I add two numbers, the result should not depend on parameter order`` x y =
+            let result1 = add x y // v3 v4
+            let result2 = add y x 
+            result1 = result2
+
+    Check.Quick ``When I add two numbers, the result should not depend on parameter order``
+
+    let ``Adding 1 twice is the same as adding 2`` x =
+        let result1 = add ( add x 1 ) 1 // v4 v5
+        let result2 = add x 2  
+        result1 = result2
+
+    Check.Quick ``Adding 1 twice is the same as adding 2``
+
+    let ``Adding zero is the same as doing nothing`` x =
+        let result1 = add x 0 // v5
+        let result2 = x 
+        result1 = result2
+
+    Check.Quick ``Adding zero is the same as doing nothing``
