@@ -36,3 +36,34 @@ let processData language =
     sample.XElement.Save(@"d:\Temp\" + language.folder + "\urlConfig.xml")
 
 languages |> Seq.iter processData
+
+module ``File scanning`` =
+    
+    open System.IO;
+
+    let blackList = [".g.cs"; "g.i.cs"; "AssemblyInfo.cs"]
+
+    let filterFile blList (file:string) = 
+        blList |> List.forall (file.EndsWith >> (not))
+
+    let filter = filterFile blackList
+
+    let rec readDir dirName = 
+        seq {
+            let files = Directory.GetFiles(dirName, "*.cs")  |> Array.filter filter
+            
+
+            let dirs = Directory.GetDirectories(dirName) 
+            yield! dirs |> Seq.collect readDir 
+            yield files
+        }
+
+    let test = readDir @"C:\Users\Tomasz\Source\Workspaces\ShareLink"
+
+    test |> Seq.collect  Array.toSeq 
+         |> Seq.map (fun name -> async { return name, File.ReadAllLines(name).Length })
+         |> Async.Parallel
+         |> Async.RunSynchronously
+         |> Array.filter (fun (_, lines) -> lines <> 0)
+         |> Array.map (fun (name, lines) -> Path.GetFileName(name), lines )
+         |> Array.sortBy (fun (_, lines) -> -lines)

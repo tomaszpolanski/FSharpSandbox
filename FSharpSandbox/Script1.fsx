@@ -1002,7 +1002,7 @@ module ``Property based testin`` =
         | Success of string
         | Failure of string * Expected * Acctual
     
-    let compare name (expected, acctual)= 
+    let compare name (expected, acctual) = 
         match (expected, acctual) with
         | (Expected e, Acctual a) when e = a ->
             Success name
@@ -1017,11 +1017,11 @@ module ``Property based testin`` =
               yield !latest }
 
     let repeatTest count test =
-        let testSeq = seq { for _ in [0..count] do yield test() }
-        testSeq |> takeLastWhile (fun result -> match result with
-                                                    | Success s -> true
-                                                    | Failure _ -> false)
-                |> Seq.last
+        seq { for _ in [0..count] do yield test() } 
+        |> takeLastWhile (fun result -> match result with
+                                          | Success s -> true
+                                          | Failure _ -> false)
+        |> Seq.last
 
     let runTest = repeatTest 100
 
@@ -1058,3 +1058,5 @@ module ``Property based testin`` =
     printTest ``not order dependent test``
     printTest ``zero is the same as doing nothing``
     printTest ``and twice one is the same as adding two``
+
+    

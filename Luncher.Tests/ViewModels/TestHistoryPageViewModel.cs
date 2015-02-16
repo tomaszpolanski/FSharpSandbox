@@ -74,11 +74,15 @@ namespace Luncher.Tests.ViewModels
                                                     .ToList();
 
             Assert.AreEqual(reverseRestaurantNames.Count, vm.HistoryList.Count);
-            Assert.AreEqual(reverseRestaurantNames[0], vm.HistoryList[0].Restaurant);
-            Assert.AreEqual(reverseRestaurantNames[1], vm.HistoryList[1].Restaurant);
-            Assert.AreEqual(reverseRestaurantNames[2], vm.HistoryList[2].Restaurant);
-            Assert.AreEqual(reverseRestaurantNames[3], vm.HistoryList[3].Restaurant);
-            Assert.AreEqual(reverseRestaurantNames[4], vm.HistoryList[4].Restaurant);
+
+            var results = vm.HistoryList.Select(rest => rest.Restaurant)
+                                        .Zip(reverseRestaurantNames,
+                ( acctual, expected) => new { Ex = expected, Ac = acctual });
+
+            foreach(var result in results)
+            {
+                Assert.AreEqual(result.Ex, result.Ac);
+            }
         }
 
         [TestMethod]
