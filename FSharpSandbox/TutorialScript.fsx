@@ -283,3 +283,181 @@ module ``Property based testing base`` =
         result1 = result2
 
     Check.Quick ``Adding zero is the same as doing nothing``
+
+module Monoids = 
+    
+    let add x y = x + y
+
+    1 + (2 + 3) = (1 + 2) + 3
+
+    (add 2 0) = 2
+
+    let list = ["page one text"; "page two text"; "page two text"; "page two text"]
+
+    list |> List.map (fun text -> text.Length)
+         |> List.reduce (fun count1 count2 -> count1 + count2 )
+
+
+    
+module Async = 
+
+    open System
+
+    let sleepWorkflow  = async{
+        printfn "Starting sleep workflow at %O" DateTime.Now.TimeOfDay
+        do! Async.Sleep 2000
+        printfn "Finished sleep workflow at %O" DateTime.Now.TimeOfDay
+    }
+
+    Async.RunSynchronously sleepWorkflow  
+
+    /// From event
+
+    let timer = new System.Timers.Timer(5000.);
+    let operation = Async.AwaitEvent(timer.Elapsed)
+
+    timer.Start()
+
+    let printOption = function
+        | Some v -> printf "Some: %A" v
+        | None -> printf "Nome"
+
+    Async.RunSynchronously operation
+        |> Option.Some
+        |> Option.map (fun arg -> arg.SignalTime)
+        |> printOption
+            
+
+    /// From task
+    open  System.Threading.Tasks
+
+    let task = Task.FromResult(2000)
+
+    let value = Async.AwaitTask task 
+
+    Async.RunSynchronously value
+        |> printf "%A"
+
+    /// To task
+
+    sleepWorkflow 
+        |> ( Async.StartAsTask >> Async.AwaitTask >> Async.RunSynchronously)
+        |> printf "%A"
+
+    /// Paralel
+
+    let delay ms message  = async {
+            do! Async.Sleep ms
+            printfn "Finished %A: %O" message DateTime.Now.TimeOfDay 
+        }
+
+    let workflowInSeries = async {
+        do! delay 1000 "one"
+        do! delay 2000 "two"
+        }
+
+
+    workflowInSeries |> Async.RunSynchronously  
+
+    [delay 1000 "one"; delay 2000 "two"] 
+        |> Async.Parallel
+        |> Async.RunSynchronously 
+
+module ``Async in practice`` = 
+    
+    open System
+
+    let childTask() = 
+        // chew up some CPU. 
+        for i in [1..1000] do 
+            for i in [1..1000] do 
+                do "Hello".Contains("H") |> ignore 
+
+
+    let bigTask = 
+        childTask
+        |> List.replicate 40
+        |> List.reduce (>>)
+
+    let logged f = 
+        let startTime = DateTime.Now.TimeOfDay.TotalSeconds 
+        printfn "Started"
+        let result = f()
+        printfn "Finished in %O" (DateTime.Now.TimeOfDay.TotalSeconds - startTime) 
+        result
+
+    logged bigTask
+
+    let asyncTask = async { return childTask() }
+
+    let bigAsyncTask() = 
+        asyncTask
+        |> List.replicate 40
+        |> Async.Parallel
+        |> Async.RunSynchronously
+        |> ignore
+
+    logged bigAsyncTask
+
+    /// More parallel
+
+    let pmap f l =
+        seq { for a in l -> async { return f a } }
+        |> Async.Parallel
+        |> Async.RunSynchronously
+
+
+    let longSequence = seq { for i in 1..1000000 do yield i }
+
+
+    let syncFun() =
+        longSequence 
+        |> Seq.map (fun a -> a % 2 = 0 )
+        |> ignore
+
+
+    logged syncFun
+
+    let parFun() =
+        longSequence 
+        |> pmap (fun a -> a % 2 = 0 )
+        |> ignore
+
+    logged parFun
+
+module ``Mutable state`` = 
+
+    let test() =
+        let mutable counter = 0m
+ 
+        let incrGlobalCounter numberOfTimes = 
+            for i in 1 .. numberOfTimes do
+                counter <- counter + 1m
+
+        printfn "Before %A" counter
+        incrGlobalCounter 10
+        printfn "After %A" counter
+
+
+module ``Option`` = 
+    
+   type Op = {F: string} 
+        with 
+        member this.add (f, ?s) = 
+            match s with
+            | Some v -> f + v
+            | None -> f
+            
+   let test = {F= "asdfs"}
+
+   test.add ("a","d")
+
+module ``Fizz Buzz`` = 
+
+    let print = function
+        | x when x % 3 = 0 && x % 5 = 0 -> printfn "FizzBuzz"
+        | x when x % 3 = 0 -> printfn "Fizz"
+        | x when x % 5 = 0 -> printfn "Buzz"
+        | x -> printfn "%A" x
+
+    [1..100] |> List.map print |> ignore
