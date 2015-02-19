@@ -67,3 +67,4 @@ module ``File scanning`` =
          |> Array.filter (fun (_, lines) -> lines <> 0)
          |> Array.map (fun (name, lines) -> Path.GetFileName(name), lines )
          |> Array.sortBy (fun (_, lines) -> -lines)
+
