@@ -56,12 +56,16 @@ module ``Improved scanning impl`` =
     let scanFolder dir = 
         let rec readDirReq folder = seq {
             let (Folder currentFolder) = folder
-            let files = Directory.GetFiles(currentFolder, "*.cs") |> Seq.map FileUri
+            let files = Opt.tryGet (fun () ->  Directory.GetFiles(currentFolder, "*.cs"))
+                         |> Option.map (Seq.map FileUri)
+
+                         
             
 
-            let dirs = Directory.GetDirectories(currentFolder) |> Seq.map Folder
-            yield! dirs |> Seq.collect readDirReq 
-            yield files
+            let dirs = Opt.tryGet (fun () -> Directory.GetDirectories(currentFolder))
+                        |> Option.map (Seq.map Folder)
+            yield! (match dirs with | Some s -> s | None -> Seq.empty) |> Seq.collect readDirReq 
+            yield match files with | Some s -> s | None -> Seq.empty
         } 
 
         readDirReq dir |> Seq.collect id

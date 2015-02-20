@@ -8,9 +8,12 @@ open Api.``Improved scanning``
 let main argv = 
     
     let printFiles (f: ProcessFiles) folder =
-        folder |> f |> Seq.iter (printfn "%A")
+        match  f folder with
+            | files when Seq.isEmpty files -> printfn "No files found"
+            | files -> files |> Seq.iter (printfn "%A")
+        
 
-    printFiles (processFiles) (Folder @"C:\Users\Tomasz\Source\Workspaces\ShareLink") 
+    printFiles processFiles (Folder @"C:\Users\Tomasz\Source\Workspaces\ShareLink") 
     System.Console.ReadLine() |> ignore
 
     0 // return an integer exit code
