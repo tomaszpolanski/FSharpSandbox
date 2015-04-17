@@ -27,3 +27,15 @@ module Recursive =
              yield! fibonnaci next (num + next)
            }
     let Fibonnaci = fibonnaci 0 1
+
+module BigFibonnaci = 
+    
+    let fib = 
+        (0I, 1I) 
+            |> Seq.unfold (fun (x, y) -> let z = x + y in Some(z, (y, z))) 
+            |> Seq.append [0I;1I]
+
+    let fac = 
+        (1I, 2I) 
+            |> Seq.unfold (fun (x, y) -> let z = x * y in Some(z, (y, z))) 
+            |> Seq.append [1I;2I]

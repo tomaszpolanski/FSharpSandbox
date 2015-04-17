@@ -392,6 +392,8 @@ Portable.Recursive.Factorials |> Seq.take 5 |> List.ofSeq |> Seq.iter ( fun fact
 
 Portable.Recursive.Fibonnaci |> Seq.take 10 |> List.ofSeq |> Seq.iter ( fun fibo -> printf "%A " fibo )
 
+Portable.BigFibonnaci.fac |> Seq.take 6 |> Seq.iter (printfn "%A")
+
 /////////
 
 type Titanic = CsvProvider<"Titanic.csv">
