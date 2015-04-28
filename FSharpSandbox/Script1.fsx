@@ -1,5 +1,5 @@
 ﻿#r "../packages/FSharp.Data.2.1.0/lib/net40/FSharp.Data.dll"
-#load "../packages/FSharp.Charting.0.90.7/FSharp.Charting.fsx"
+#load @"../packages/FSharp.Charting.0.90.7/FSharp.Charting.fsx"
 #load "../Portable/Extensions.fs"
 
 open FSharp.Data
@@ -1020,9 +1020,7 @@ module ``Property based testin`` =
 
     let repeatTest count test =
         seq { for _ in [0..count] do yield test() } 
-        |> takeLastWhile (fun result -> match result with
-                                          | Success s -> true
-                                          | Failure _ -> false)
+        |> takeLastWhile (function Success _ -> true | Failure _ -> false)
         |> Seq.last
 
     let runTest = repeatTest 100

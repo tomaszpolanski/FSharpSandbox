@@ -369,8 +369,8 @@ module ``Async in practice`` =
 
     let childTask() = 
         // chew up some CPU. 
-        for i in [1..1000] do 
-            for i in [1..1000] do 
+        for _ in [1..1000] do 
+            for _ in [1..1000] do 
                 do "Hello".Contains("H") |> ignore 
 
 
@@ -431,7 +431,7 @@ module ``Mutable state`` =
         let mutable counter = 0m
  
         let incrGlobalCounter numberOfTimes = 
-            for i in 1 .. numberOfTimes do
+            for _ in 1 .. numberOfTimes do
                 counter <- counter + 1m
 
         printfn "Before %A" counter
@@ -443,7 +443,7 @@ module ``Option`` =
     
    type Op = {F: string} 
         with 
-        member this.add (f, ?s) = 
+        member __.add (f, ?s) = 
             match s with
             | Some v -> f + v
             | None -> f
@@ -460,4 +460,13 @@ module ``Fizz Buzz`` =
         | x when x % 5 = 0 -> printfn "Buzz"
         | x -> printfn "%A" x
 
-    [1..100] |> List.map print |> ignore
+    [1..100] |> List.iter print
+
+module ``Active patterns`` =
+    let (|Even|Odd|) i = 
+        if i % 2 = 0 then Even else Odd
+
+    let testNumber i =
+        match i with
+        | Even -> printfn "%d is even" i
+        | Odd -> printfn "%d is odd" i
