@@ -1,9 +1,8 @@
-﻿#load "../packages/FSharp.Charting.0.90.7/FSharp.Charting.fsx"
+﻿#load @"../packages/FSharp.Charting.0.90.7/FSharp.Charting.fsx"
 
 open FSharp.Charting
 
 #r "../packages/FSharp.Data.2.1.0/lib/net40/FSharp.Data.dll"
-#load "../Portable/Extensions.fs"
 
 open FSharp.Data
 
@@ -49,9 +48,6 @@ module ``Lets do some charting`` =
     
     Chart.Line(squareList)
     
-    let numbers = [ 0..100 ] |> List.countBy (fun x -> x % 2 = 0)
-    
-    Chart.Pie(numbers)
 
 module ``Lets do some useful charting`` = 
     let worldData = WorldBankData.GetDataContext()
@@ -193,9 +189,9 @@ module ``Property based testing base`` =
 
     let addProper x y = x + y
 
-    let addV0 x y = 571324987
+    let addV0 _ _ = 571324987
 
-    let addV1 x y = 3 
+    let addV1 _ _ = 3 
 
     let addV2 x y =
         if x=2 && y=2 then 
@@ -213,7 +209,7 @@ module ``Property based testing base`` =
 
     let addV4 x y = x * y
 
-    let addV5 x y = 0
+    let addV5 _ _ = 0
 
     let add = addProper
 
@@ -329,9 +325,8 @@ module Async =
             
 
     /// From task
-    open  System.Threading.Tasks
 
-    let task = Task.FromResult(2000)
+    let task = System.Threading.Tasks.Task.FromResult(2000)
 
     let value = Async.AwaitTask task 
 
@@ -428,11 +423,13 @@ module ``Async in practice`` =
 module ``Mutable state`` = 
 
     let test() =
-        let mutable counter = 0m
- 
+        let mutable mut = 1
+        mut <- 2
+
+        let counter = ref  0
+        
         let incrGlobalCounter numberOfTimes = 
-            for _ in 1 .. numberOfTimes do
-                counter <- counter + 1m
+            for _ in 1 .. numberOfTimes do counter := !counter + 1
 
         printfn "Before %A" counter
         incrGlobalCounter 10
