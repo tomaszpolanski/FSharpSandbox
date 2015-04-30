@@ -1059,4 +1059,12 @@ module ``Property based testin`` =
     printTest ``zero is the same as doing nothing``
     printTest ``and twice one is the same as adding two``
 
+module ``String`` = 
+      let rec loop (nm:string) = 
+            let n = nm.IndexOf '|'
+            if n > 0 then 
+               nm.[0..n-1] :: loop nm.[n+1..]
+            else
+               [nm]
+
     
