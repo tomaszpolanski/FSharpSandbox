@@ -13,6 +13,8 @@ let worldData = WorldBankData.GetDataContext()
 [ for ind in worldData.Countries.Germany.Indicators.``Access to electricity (% of population)`` do
       yield match ind with
             | year, per -> sprintf "Year: %d, per %f" year per ]
-Chart.Bar(worldData.Countries.Germany.Indicators.``Internet users (per 100 people)``)
 
-[for i in 0..5..100 do yield i,i] |> Chart.Bar
+Chart.Bar(worldData.Countries.Germany.Indicators.``Internet users (per 100 people)``)
+[ for i in 0..5..100 do
+      yield i, i ]
+|> Chart.Bar
