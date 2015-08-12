@@ -18,3 +18,15 @@ Chart.Bar(worldData.Countries.Germany.Indicators.``Internet users (per 100 peopl
 [ for i in 0..5..100 do
       yield i, i ]
 |> Chart.Bar
+
+
+let traverseOptionM f list =
+    
+    let (>>=) x f = Option.bind f x
+
+    let folder head tail =
+        f head >>= (fun h ->
+        tail >>= (fun t ->
+        Some ( h :: t) ))
+
+    List.foldBack folder list (Some [])

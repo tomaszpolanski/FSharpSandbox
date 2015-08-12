@@ -64,6 +64,7 @@
     <None Include="TutorialScript.fsx" />
     <None Include="CheatSheet.fsx" />
     <None Include="Sandbox.fsx" />
+    <None Include="UnitsofMeasure.fsx" />
     <None Include="Radio.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
