@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="RxSandbox.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RxSandbox"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <RelativePanel Padding="30"
+                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="SubscribeField" 
+                   Foreground="Red"/>
+        <TextBlock x:Name="PropertyField" 
+                   Text="{Binding Article.Value}" 
+                   RelativePanel.Below="SubscribeField"
+                   Foreground="Red"/>
+        <TextBox x:Name="EnterField" Text="{Binding Category.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 RelativePanel.Below="PropertyField"/>
+        <Button Command="{Binding ButtonCommand}"
+                Content="Click me!"
+                 RelativePanel.Below="EnterField"/>
+    </RelativePanel>
+</Page>
